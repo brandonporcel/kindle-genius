@@ -134,8 +134,6 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use(express.json());
-
 app.get("/", (req, res) => {
   const items = [
     { id: 1, name: "Item 1" },
