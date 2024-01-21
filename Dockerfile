@@ -5,7 +5,7 @@ FROM node:16
 RUN npm install -g playwright
 
 # Usa la imagen de Playwright como base, con la versión focal
-FROM mcr.microsoft.com/playwright:focal
+FROM mcr.microsoft.com/playwright:v1.40.1-focal
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /usr/src/app
