@@ -154,14 +154,6 @@ const scrapeAndGeneratePDF = async (userURL) => {
   }
 };
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "tuCorreo@gmail.com",
-    pass: "tuContraseña",
-  },
-});
-
 app.post("/generate-pdf", async (req, res) => {
   const htmlContent = req.body.template; // HTML content as a string
 
