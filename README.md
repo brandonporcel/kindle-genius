@@ -1,4 +1,6 @@
-## ----
+# 🗒 Desactualizado. Version actualizada [https://github.com/brandonporcel/kindle-lyrics](https://github.com/brandonporcel/kindle-lyrics)
+
+## Kindle Lyrics Backend
 
 backend para https://github.com/brandonporcel/lyric-kindle
 
