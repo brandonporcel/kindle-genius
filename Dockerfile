@@ -1,5 +1,5 @@
 # Use la imagen de Node.js como base
-FROM node:16
+FROM node:18
 
 # Instala Playwright en la imagen base de Node.js
 RUN npm install -g playwright
