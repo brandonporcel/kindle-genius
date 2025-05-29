@@ -1,26 +1,23 @@
-# Use la imagen de Node.js como base
-FROM node:18
-
-# Instala Playwright en la imagen base de Node.js
-RUN npm install -g playwright
-
-# Usa la imagen de Playwright como base, con la versión focal
+# Usa la imagen oficial de Playwright (ya tiene Node y browsers)
 FROM mcr.microsoft.com/playwright:v1.40.1-focal
 
-# Establece el directorio de trabajo dentro del contenedor
+# Establece el directorio de trabajo
 WORKDIR /usr/src/app
 
-# Copia el archivo package.json y package-lock.json al directorio de trabajo
+# Copia solo los archivos necesarios primero (para aprovechar el cache de Docker)
 COPY package*.json ./
 
-# Instala las dependencias del proyecto
+# Instala dependencias
 RUN npm install
 
-# Copia el resto de los archivos al directorio de trabajo del contenedor
+# Copia el resto de los archivos
 COPY . .
 
-# Exponer el puerto en el que se ejecuta tu aplicación Node.js
+# Compila TypeScript a JavaScript
+RUN npm run build
+
+# Expone el puerto (si tu app escucha en 3000)
 EXPOSE 3000
 
-# Comando para ejecutar tu aplicación
-CMD ["node", "index.js"]
+# Comando para iniciar tu app
+CMD ["npm", "start"]

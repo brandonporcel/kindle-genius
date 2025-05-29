@@ -1,4 +1,5 @@
 import { Page } from "playwright";
+
 import { launchBrowser } from "../browser/launch";
 import { isAlbum } from "../utils/isAlbum";
 import { Router } from "express";
@@ -34,12 +35,20 @@ async function getSongContent(page: Page): Promise<string> {
   await page.waitForSelector(
     "#lyrics-root-pin-spacer div[data-lyrics-container]"
   );
-  const sections = await page.$$eval(
+
+  const cleanedHtml = await page.$eval(
     "#lyrics-root-pin-spacer div[data-lyrics-container]",
-    (nodes) => nodes.map((n) => n.outerHTML)
+    (el) => {
+      const headers = el.querySelectorAll(
+        'div[class*="LyricsHeader__Container"]'
+      );
+      headers.forEach((header) => header.remove());
+
+      return el.outerHTML;
+    }
   );
 
-  return `${title}${sections.join("<br>")}`;
+  return `${title}<br />${cleanedHtml}`;
 }
 
 async function getAlbumContent(page: Page): Promise<string> {
@@ -55,7 +64,7 @@ async function getAlbumContent(page: Page): Promise<string> {
     await page.goto(link, { waitUntil: "domcontentloaded" });
     const songContent = await getSongContent(page);
     fullContent += songContent + "<hr />";
-    await page.waitForTimeout(1000); // throttle
+    await page.waitForTimeout(1000);
   }
 
   return fullContent;
